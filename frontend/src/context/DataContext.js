@@ -29,10 +29,6 @@ function Dataprovider({ children }) {
     const handlePagination = (e, value) => {
         setCurrentPage(value)
     }
-
-
-
-
     // HANDLE FUNCTIONS
 
 

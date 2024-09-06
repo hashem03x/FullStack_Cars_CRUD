@@ -29,6 +29,7 @@ function DataTable() {
         });
     };
 
+
     // SAVE CHANGES FUNCTION THAT SENDS ONLY UPDATED ITEMS
     const saveChanges = async () => {
         try {

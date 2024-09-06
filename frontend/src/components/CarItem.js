@@ -1,4 +1,4 @@
-import React, { useContext, useRef } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 
 import { Button, TextField } from '@mui/material';
 import { DataContext } from '../context/DataContext';
@@ -6,12 +6,14 @@ import Swal from 'sweetalert2';
 
 
 function CarItem({ item, handleItemChange }) {
-    const { StyledTableCell, StyledTableRow, BASE_URL, setData, setCachedPages } = useContext(DataContext);
+    const { StyledTableCell, StyledTableRow, BASE_URL, setData, setCachedPages, currentPage } = useContext(DataContext);
+    const [lastEditedCell, setLastEditedCell] = useState(null)
 
     // Function To Handle Keyboard Keys
     const colorRef = useRef(null);
     const modelRef = useRef(null);
     const codeRef = useRef(null);
+
     const handleKeyDown = (e, nextRef) => {
         if (e.key === 'Enter' || e.key === 'ArrowDown') {
             console.log(e, nextRef.current.value)
@@ -20,6 +22,15 @@ function CarItem({ item, handleItemChange }) {
             nextRef.current.focus();
         }
     };
+
+
+    // Auto Focus Method (NOT WORKING)
+    useEffect(() => {
+        if (lastEditedCell) {
+            lastEditedCell.target.focus()
+            console.log(lastEditedCell)
+        }
+    }, [lastEditedCell, currentPage])
 
 
     const handleDeleteItem = async (id) => {
@@ -94,7 +105,10 @@ function CarItem({ item, handleItemChange }) {
                     variant={item.isEdited === 'true' ? "filled" : "standard"}
                     label={item.isEdited === 'true' && "Edited"}
                     color='blue'
-                    onChange={(e) => handleItemChange(item, e.target, 'color')}
+                    onChange={(e) => {
+                        setLastEditedCell(e)
+                        handleItemChange(item, e.target, 'color')
+                    }}
                     onKeyDown={(e) => handleKeyDown(e, modelRef)}
                 />
             </StyledTableCell>
@@ -104,7 +118,10 @@ function CarItem({ item, handleItemChange }) {
                     defaultValue={item.model}
                     variant={item.isEdited === 'true' ? "filled" : "standard"}
                     label={item.isEdited === 'true' && "Edited"}
-                    onChange={(e) => handleItemChange(item, e.target, 'model')}
+                    onChange={(e) => {
+                        setLastEditedCell(e)
+                        handleItemChange(item, e.target, 'model')
+                    }}
                     onKeyDown={(e) => handleKeyDown(e, codeRef)}
                 />
             </StyledTableCell>
@@ -114,7 +131,10 @@ function CarItem({ item, handleItemChange }) {
                     defaultValue={item.code}
                     variant={item.isEdited === 'true' ? "filled" : "standard"}
                     label={item.isEdited === 'true' && "Edited"}
-                    onChange={(e) => handleItemChange(item, e.target, 'code')}
+                    onChange={(e) => {
+                        setLastEditedCell(e)
+                        handleItemChange(item, e.target, 'code')
+                    }}
                     onKeyDown={(e) => handleKeyDown(e, colorRef)}
                 />
             </StyledTableCell>
