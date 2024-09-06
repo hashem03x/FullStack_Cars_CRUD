@@ -1,0 +1,19 @@
+:root {
+  --text: #ded8fa;
+  --background: #07041e;
+  --primary: #9782ef;
+  --secondary: #901367;
+  --accent: #e6415f;
+}
+
+body {
+  background-color: var(--background);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 60px;
+}
+
+* {
+  color: var(--text);
+}
